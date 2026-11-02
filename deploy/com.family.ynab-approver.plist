@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- Daily approval pass at 07:00 (--all also retries earlier skips).
+     Install: replace /PATH/TO and /Users/YOU, copy to ~/Library/LaunchAgents/, then
+       launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.family.ynab-approver.plist
+     If the Mac is asleep at the scheduled time, launchd runs the job at wake. -->
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>com.family.ynab-approver</string>
+  <key>WorkingDirectory</key><string>/PATH/TO/ynab-ai-approver</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/PATH/TO/ynab-ai-approver/.venv/bin/approver</string>
+    <string>run</string>
+    <string>--all</string>
+  </array>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <!-- so launchd finds the `claude` CLI (installed in ~/.local/bin or Homebrew) -->
+    <key>PATH</key><string>/Users/YOU/.local/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin</string>
+  </dict>
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Hour</key><integer>7</integer>
+    <key>Minute</key><integer>0</integer>
+  </dict>
+  <key>StandardOutPath</key><string>/PATH/TO/ynab-ai-approver/state/run.log</string>
+  <key>StandardErrorPath</key><string>/PATH/TO/ynab-ai-approver/state/run.log</string>
+</dict>
+</plist>

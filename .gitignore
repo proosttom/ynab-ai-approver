@@ -1,0 +1,10 @@
+.env
+state/
+policy.draft.yaml
+__pycache__/
+*.egg-info/
+.venv/
+.pytest_cache/
+# family data: real policy (IBANs, payees) and its versions stay local
+policy.yaml
+policy-history/
